@@ -28,13 +28,13 @@ namespace hybrid_a_star
     class HybridAStarROS : public nav_core::BaseGlobalPlanner {
     public:
         HybridAStarROS();
+        HybridAStarROS(ros::NodeHandle &nh);
         HybridAStarROS(std::string name, costmap_2d::Costmap2DROS *costmap_ros);
 
         void initialize(std::string name, costmap_2d::Costmap2DROS *costmap_ros);
         bool makePlan(const geometry_msgs::PoseStamped &start,
                       const geometry_msgs::PoseStamped &goal,
                       std::vector<geometry_msgs::PoseStamped> &plan);
-        ~HybridAStarROS();
 
     private:
         void publishPath(const VectorVec3d &path);

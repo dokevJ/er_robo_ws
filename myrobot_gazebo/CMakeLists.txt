@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES myrobot_gazebo
-  DEPENDS gazebo gazebo_plugins gazebo_ros
+#  DEPENDS gazebo_plugins gazebo_ros
 #  DEPENDS system_lib
 )
 

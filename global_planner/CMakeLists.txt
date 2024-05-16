@@ -110,9 +110,9 @@ find_package(Eigen3 REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
- LIBRARIES PATH_SEARCH_LIB
+ LIBRARIES hybrid_a_star
  CATKIN_DEPENDS geometry_msgs nav_core nav_msgs roscpp std_msgs tf2 pluginlib
- DEPENDS system_lib
+ DEPENDS EIGEN3
 )
 
 ###########
@@ -130,16 +130,16 @@ include_directories(
 add_definitions(${EIGEN3_INCLUDE_DIRS})
 
 add_library(
-  PATH_SEARCH_LIB SHARED
+  hybrid_a_star SHARED
   src/reed_shepp.cpp
   src/hybrid_a_star.cpp
   src/hybrid_a_star_ros.cpp
 )
 
-add_dependencies(PATH_SEARCH_LIB ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(hybrid_a_star ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(
-  PATH_SEARCH_LIB
+  hybrid_a_star
   ${catkin_LIBRARIES}
 )
 
