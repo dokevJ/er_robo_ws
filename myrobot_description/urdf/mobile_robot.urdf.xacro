@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="er_robot">
+
+  <xacro:property name="package_name" value="myrobot_description"/>
+  <xacro:property name="robot_name" value="er_robot"/>
+
+  <xacro:include filename="$(find ${package_name})/urdf/include/common_macros.urdf.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/common_sensors.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/mobile_robot.gazebo"/>
+  <!-- <xacro:include filename="$(find ${package_name})/urdf/mobile_robot.trans"/> -->
+
+  <!-- <xacro:set_package_name /> -->
+
+  <xacro:property name="back_wheel_yaml" value="$(find ${package_name})/config/${robot_name}/back_wheel.yaml" />
+  <xacro:property name="back_wheel_props" value="${xacro.load_yaml(back_wheel_yaml)}"/>
+
+  <xacro:property name="front_wheel_yaml" value="$(find ${package_name})/config/${robot_name}/front_wheel.yaml" />
+  <xacro:property name="front_wheel_props" value="${xacro.load_yaml(front_wheel_yaml)}"/>
+
+  <xacro:property name="caster_wheel_yaml" value="$(find ${package_name})/config/${robot_name}/caster_wheel.yaml" />
+  <xacro:property name="caster_wheel_props" value="${xacro.load_yaml(caster_wheel_yaml)}"/>
+
+  <xacro:property name="base_yaml" value="$(find ${package_name})/config/${robot_name}/base.yaml" />
+  <xacro:property name="base_props" value="${xacro.load_yaml(base_yaml)}"/>
+
+  <xacro:property name="footprint_yaml" value="$(find ${package_name})/config/${robot_name}/footprint.yaml" />
+  <xacro:property name="footprint_props" value="${xacro.load_yaml(footprint_yaml)}"/>
+
+  <!-- Base link --> 
+  <xacro:base base_prop="${base_props}" >
+    <origin xyz="0 0 0.03" rpy="0 0 0" />
+  </xacro:base> 
+
+  <xacro:footprint wheel_props="${footprint_props}" />
+
+  <!-- Caster Wheels -->
+  <xacro:caster_wheel prefix="caster_wheel" reflect="-1"
+                      wheel_props="${caster_wheel_props}">
+  </xacro:caster_wheel>
+
+  <!-- Front wheels -->
+  <xacro:wheel prefix="front_right" reflect="-1"
+                      wheel_props="${front_wheel_props}"
+                      base_props="${base_props}"> 
+  </xacro:wheel>
+  <xacro:wheel prefix="front_left" reflect="1"
+                      wheel_props="${front_wheel_props}"
+                      base_props="${base_props}"> 
+  </xacro:wheel>
+  
+  <!-- Lidar -->
+  <xacro:hokuyo_sensor parent_link="${base_props}">
+  </xacro:hokuyo_sensor>
+
+  <xacro:imu_sensor parent_link="base_link">
+  </xacro:imu_sensor>
+
+  <!-- <xacro:include filename="$(find mobile_description)/urdf/mobile_robot_gazebo_plugins.xacro"/>  -->
+
+</robot>

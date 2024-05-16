@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="set_environment" params="package_name:='myrobot_description' ">
+    <xacro:property name="package_name" value="${package_name}" scope="global"/>  
+  </xacro:macro>
+
+  <xacro:macro name="depth_sensor" params="">
+    <link name="rgb_camera_link">
+      <visual name="camera">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.2 0.1" />
+        </geometry>
+      </visual>
+      <collision name="camera">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.2 0.1" />
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1.0" ixy="1e-6" ixz="1e-6" iyy="1.0" iyz="1e-6" izz="1.0" />
+      </inertial>
+    </link>
+
+    <joint name="rgb_camera_joint" type="fixed">
+      <origin xyz="0.25 0 0.3" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="rgb_camera_link"/>
+    </joint>
+
+    <!-- <joint name="camera_rgb_joint" type="fixed">
+    </joint>
+
+    <link name="camera_rgb_frame"/>
+
+    <link name="camera_optical_rgb_frame"/> -->
+  </xacro:macro>
+
+  <xacro:property name="bno_depth" value="0.00254" />
+  <xacro:property name="bno_width" value="0.0254" />
+  <xacro:property name="bno_height" value="0.02032" />
+  <xacro:property name="bno_mass" value="0.003" />   
+  
+  <xacro:macro name="imu_sensor" params="parent_link">
+    <link name="imu_link">
+      <collision>
+        <origin xyz="0 0 ${bno_depth/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${bno_width} ${bno_height} ${bno_depth}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="-${bno_width} ${bno_height} 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <box size="${bno_width} ${bno_height} ${bno_depth}"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="imu_link"/>
+      <origin xyz="0 0 0" ryp="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="hokuyo_sensor" params="parent_link "> 
+
+  <xacro:property name="pos_z_joint"
+      value="${(parent_link['base']['z_size']/2) + 0.04}"/>
+  <xacro:property name="pos_x_joint"
+      value="${(parent_link['base']['x_size']/2) - 0.03}"/>
+
+    <link name="hokuyo_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.06 0.06 0.087"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package_name}/meshes/sensors/hokuyo.dae" />
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="hokuyo_joint" type="fixed">
+      <axis xyz="0 0 0" />
+      <origin xyz="${pos_x_joint} 0 ${pos_z_joint + 0.002}" rpy="0 0 0" />
+      <!-- <xacro:insert_block name="joint_origin" /> -->
+      <parent link="base_link"/>
+      <child link="hokuyo_link"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

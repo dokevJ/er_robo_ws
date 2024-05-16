@@ -1,0 +1,13 @@
+<launch>
+  <arg name="multi_robot_name" default=""/>
+
+  <include file="$(find my_robot_bringup)/launch/myrobot_remote.launch">
+  </include>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+    <param name="use_gui" value="true"/>
+    <param name="rate" value="50"/>
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find myrobot_description)/rviz/model.rviz"/>
+</launch>

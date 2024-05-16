@@ -1,0 +1,19 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="configuration_basename" default="robot_lds_2d.lua"/>
+  <arg name="open_rviz" default="true"/>
+
+
+  <include file="$(find my_robot_bringup)/launch/myrobot_remote.launch" />
+
+  <!-- SLAM: Gmapping -->
+  <include file="$(find myrobot_slam)/launch/myrobot_gmapping.launch">
+    <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+  </include>
+
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find myrobot_slam)/rviz/dynamic_obs.rviz"/>
+  </group>
+</launch>

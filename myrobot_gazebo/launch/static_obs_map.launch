@@ -1,0 +1,26 @@
+<launch>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.0"/>
+  <arg name="yaw_pos" default="1.5708"/>
+  <arg name="robot_name" default="er_robot"/>
+
+  <param name="use_gui" value="false"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find myrobot_description)/urdf/mobile_robot.urdf.xacro" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model er_robot -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg yaw_pos) -param robot_description" />
+
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find myrobot_gazebo)/worlds/static_maze.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- <include file="$(find my_robot_bringup)/launch/myrobot_remote.launch" /> -->
+
+</launch>

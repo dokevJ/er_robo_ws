@@ -1,0 +1,25 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="true"/>
+  <arg name="map_file" default="$(find myrobot_gazebo)/maps/static_obs_map.yaml"/>
+
+  <!-- Map Sever -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+  
+  <include file="$(find myrobot_gazebo)/launch/static_maze.launch"/>
+
+  <!-- AMCL -->
+  <include file="$(find myrobot_navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find myrobot_navigation)/launch/move_base.launch">
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find myrobot_navigation)/rviz/static_navigation.rviz"/>
+  </group>
+</launch>

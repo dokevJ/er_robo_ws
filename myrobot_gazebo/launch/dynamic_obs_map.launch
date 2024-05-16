@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<!-- Robot pose -->
+	<arg name="x" default="0"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="0"/>
+	<arg name="roll" default="0"/>
+	<arg name="pitch" default="0"/>
+	<arg name="yaw" default="0"/>
+	<arg name="robot_name" default="er_robot"/>
+
+	<!-- Launch other relevant files-->
+	<include file="$(find myrobot_description)/launch/mobile_robot_description.launch"/>
+
+	<!-- World File -->
+	<arg name="world_file" default="$(find myrobot_gazebo)/worlds/dynamic_obs.world"/>
+
+	<!-- Launch Gazebo World -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="use_sim_time" value="true"/>
+		<arg name="verbose" value="false"/>
+		<arg name="debug" value="false"/>
+		<arg name="gui" value="true" />
+		<arg name="world_name" value="$(arg world_file)"/>
+	</include>
+
+	<!-- Spawn My Robot -->
+	<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+		args="-urdf -param robot_description -model er_robot -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw)"/>
+
+</launch>

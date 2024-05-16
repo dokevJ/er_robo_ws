@@ -1,0 +1,12 @@
+<launch>
+	<!-- <arg name="3d_sensor" default="r200"/> -->
+	<arg name="custom_gmapping_launch_file" default="$(find myrobot_slam)/config/gmapping_params.xml"/>
+
+	<!-- <include file="$(find myrobot_gazebo)/launch/static_maze.launch"/> -->
+	<include file="$(find myrobot_gazebo)/launch/dynamic_obs_map.launch"/>
+
+	<include file="$(arg custom_gmapping_launch_file)"/>
+
+	<node name="rviz" pkg="rviz" type="rviz" respawn="false"
+			args="-d $(find myrobot_slam)/rviz/gmapping.rviz"/>
+</launch>

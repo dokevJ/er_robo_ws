@@ -1,0 +1,5 @@
+<library path="lib/libhybrid_a_star">
+ <class name="hybrid_a_star/HybridAStarROS" type="hybrid_a_star::HybridAStarROS" base_class_type="nav_core::BaseGlobalPlanner">
+   <description>Hybrid A* global planner plugin</description>
+ </class>
+</library>

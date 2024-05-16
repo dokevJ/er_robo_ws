@@ -1,0 +1,30 @@
+base:
+  mass: 0.2
+  mesh: ''
+  dx: -0.15
+  dy: 0
+  dz: 0.1
+  size:
+    x: 0.1
+    y: 0.1
+    z: 0.05
+
+hub:
+  mass: 0.2
+  mesh: ''
+  dx: -0.15
+  dy: 0
+  dz: 0.1
+  size:
+    x: 0.1
+    y: 0.1
+    z: 0.05
+
+wheel:
+  mass: 0.2
+  radius: 0.03
+  length: 0.1
+  mesh: ''
+  dx: -0.20
+  dy: 0
+  dz: -0.15
